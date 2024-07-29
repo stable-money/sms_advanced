@@ -335,13 +335,9 @@ class SmsSender {
     _sentMessages.putIfAbsent(_sentId, () => msg);
     map['sentId'] = _sentId;
     if (simCard != null) {
-      map['subId'] = simCard.slot;
+      map['subId'] = simCard.subscriptionId;
     }
     _sentId += 1;
-
-    if (simCard != null) {
-      map['simCard'] = simCard.imei;
-    }
 
     if (!kIsWeb && Platform.isIOS) {
       final mapData = <dynamic, dynamic>{
@@ -523,42 +519,37 @@ enum SimCardState {
 /// Represents a device's sim card info
 class SimCard {
   int? slot;
-  String? imei;
-  SimCardState? state;
+  String? displayName;
+  int? subscriptionId;
+  String? carrierName;
+  String? number;
 
-  SimCard(
-      {required int this.slot,
-      required String this.imei,
-      this.state = SimCardState.Unknown});
+  SimCard({
+    required int this.slot,
+    required int this.subscriptionId,
+    required String this.carrierName,
+    required String this.number,
+    required String this.displayName,
+  });
 
   SimCard.fromJson(Map map) {
     if (map.containsKey('slot')) {
       slot = map['slot'];
     }
-    if (map.containsKey('imei')) {
-      imei = map['imei'];
+    if (map.containsKey('display_name')) {
+      displayName = map['display_name'];
     }
-    if (map.containsKey('state')) {
-      switch (map['state']) {
-        case 0:
-          state = SimCardState.Unknown;
-          break;
-        case 1:
-          state = SimCardState.Absent;
-          break;
-        case 2:
-          state = SimCardState.PinRequired;
-          break;
-        case 3:
-          state = SimCardState.PukRequired;
-          break;
-        case 4:
-          state = SimCardState.Locked;
-          break;
-        case 5:
-          state = SimCardState.Ready;
-          break;
-      }
+
+    if (map.containsKey('carrier_name')) {
+      carrierName = map['carrier_name'];
+    }
+
+    if (map.containsKey('sub_id')) {
+      subscriptionId = map['sub_id'];
+    }
+
+    if (map.containsKey('number')) {
+      number = map['number'];
     }
   }
 }

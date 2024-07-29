@@ -34,9 +34,11 @@ class SmsStateChangeReceiver(private val eventSink: EventSink) : BroadcastReceiv
                 }
                 "SMS_DELIVERED" -> {
                     stateChange.put("state", "delivered")
+                    Log.d("flutter_sms", "Sent result: " + sentResult(resultCode))
                 }
                 else -> {
                     stateChange.put("state", "none")
+                    Log.d("flutter_sms", "Sent result: " + sentResult(resultCode))
                 }
             }
             eventSink.success(stateChange)

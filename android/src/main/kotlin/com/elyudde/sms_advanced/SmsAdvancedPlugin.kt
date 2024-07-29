@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.elyudde.sms_advanced.permisions.Permissions
 import com.elyudde.sms_advanced.status.SmsStateHandler
+import com.elyudde.sms_advanced.status.sim.SimStateChangeHandler
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -27,6 +28,7 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
   private lateinit var queryContactPhotoChannel : MethodChannel
   private lateinit var userProfileChannel : MethodChannel
   private lateinit var simCardChannel : MethodChannel
+  private lateinit var simChangeChannel : MethodChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 
@@ -50,6 +52,8 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
 
     this.simCardChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "plugins.elyudde.com/simCards", JSONMethodCodec.INSTANCE)
 
+    this.simChangeChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "plugins.elyudde.com/simChange", JSONMethodCodec.INSTANCE)
+
   }
 
 
@@ -63,6 +67,8 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
     queryContactPhotoChannel.setMethodCallHandler(null)
     userProfileChannel.setMethodCallHandler(null)
     simCardChannel.setMethodCallHandler(null)
+    simCardChannel.setMethodCallHandler(null)
+    simChangeChannel.setMethodCallHandler(null)
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
@@ -79,6 +85,10 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
     // sms state
     val smsState = SmsStateHandler(context, binding)
     smsStatusChannel.setStreamHandler(smsState)
+
+    // sim change state
+    val simStateChangeHandler = SimStateChangeHandler(context, binding)
+    simChangeChannel.setStreamHandler(simStateChangeHandler)
 
     // remove sms
     val smsRemover = SmsRemover(context, binding)

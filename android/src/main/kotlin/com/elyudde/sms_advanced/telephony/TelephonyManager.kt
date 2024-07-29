@@ -1,8 +1,11 @@
 package com.elyudde.sms_advanced.telephony
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import android.telephony.SubscriptionInfo
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.annotation.RequiresApi
 import java.lang.reflect.InvocationTargetException
@@ -17,32 +20,16 @@ class TelephonyManager(private val context: Context) {
             return field
         }
 
-    @get:TargetApi(Build.VERSION_CODES.M)
-    val simCount: Int
-        get() = manager!!.phoneCount
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun getSimId(slotId: Int): String {
-        return manager!!.getDeviceId(slotId)
-    }
-
-    fun getSimState(slotId: Int): Int {
-        try {
-            val getSimStateMethod = manager!!.javaClass.getMethod(
-                "getSimState",
-                Int::class.javaPrimitiveType
-            )
-            val result = getSimStateMethod.invoke(manager, slotId)
-            if (result != null) {
-                return result as Int
+    private var subScriptionManager: SubscriptionManager? = null
+        private get() {
+            if (field == null) {
+                field = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
             }
-        } catch (e: NoSuchMethodException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        } catch (e: InvocationTargetException) {
-            e.printStackTrace()
+            return field
         }
-        return TelephonyManager.SIM_STATE_UNKNOWN
-    }
+
+
+    val activeSubscriptionInfoList: List<SubscriptionInfo>
+        @SuppressLint("MissingPermission")
+        get() = subScriptionManager!!.activeSubscriptionInfoList
 }

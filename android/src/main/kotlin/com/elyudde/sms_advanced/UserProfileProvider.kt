@@ -130,7 +130,7 @@ internal class UserProfileHandler(
             queryUserProfile()
             return true
         }
-        result.error("#01", "permission denied", null)
+        result.error("#01", "UserProfileProvider permission denied", null)
         return false
     }
 }

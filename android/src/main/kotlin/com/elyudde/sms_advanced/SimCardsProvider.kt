@@ -46,7 +46,7 @@ internal class SimCardsHandler(
             simCards
             return true
         }
-        result.error("#01", "permission denied", null)
+        result.error("#01", "SimCardsProvider permission denied", null)
         return false
     }
 
@@ -63,12 +63,14 @@ internal class SimCardsHandler(
                 val telephonyManager = TelephonyManager(
                     context
                 )
-                val phoneCount = telephonyManager.simCount
-                for (i in 0 until phoneCount) {
+                val phoneCount = telephonyManager.activeSubscriptionInfoList
+                for (i in phoneCount.indices) {
                     val simCard = JSONObject()
                     simCard.put("slot", i + 1)
-                    simCard.put("imei", telephonyManager.getSimId(i))
-                    simCard.put("state", telephonyManager.getSimState(i))
+                    simCard.put("display_name", phoneCount[i].displayName)
+                    simCard.put("carrier_name", phoneCount[i].carrierName)
+                    simCard.put("sub_id", phoneCount[i].subscriptionId)
+                    simCard.put("number", phoneCount[i].number)
                     simCards.put(simCard)
                 }
             } catch (e: JSONException) {

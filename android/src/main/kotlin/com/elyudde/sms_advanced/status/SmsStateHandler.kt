@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.content.ContextCompat
 import com.elyudde.sms_advanced.permisions.Permissions
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -38,17 +39,21 @@ class SmsStateHandler(val context: Context, private val binding: ActivityPluginB
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private fun registerDeliveredReceiver() {
-        context.registerReceiver(
+        ContextCompat.registerReceiver(
+            context,
             smsStateChangeReceiver,
-            IntentFilter("SMS_DELIVERED")
+            IntentFilter("SMS_DELIVERED"),
+            ContextCompat.RECEIVER_EXPORTED,
         )
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private fun registerSentReceiver() {
-        context.registerReceiver(
+        ContextCompat.registerReceiver(
+            context,
             smsStateChangeReceiver,
-            IntentFilter("SMS_SENT")
+            IntentFilter("SMS_SENT"),
+            ContextCompat.RECEIVER_EXPORTED,
         )
     }
 
@@ -78,7 +83,7 @@ class SmsStateHandler(val context: Context, private val binding: ActivityPluginB
             registerSentReceiver()
             return true
         }
-        eventSink!!.error("#01", "permission denied", null)
+        eventSink!!.error("#01", "SmsStateHandler permission denied", null)
         return false
     }
 

@@ -59,7 +59,7 @@ internal class SmsSenderMethodHandler(
             sendSmsMessage()
             return true
         }
-        result.error("#01", "permission denied for sending sms", null)
+        result.error("#01", "SMSSender permission denied for sending sms", null)
         return false
     }
 
@@ -84,12 +84,7 @@ internal class SmsSenderMethodHandler(
         val sms: SmsManager = if (subId == null) {
             SmsManager.getDefault()
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                SmsManager.getSmsManagerForSubscriptionId(subId)
-            } else {
-                result.error("#03", "this version of android does not support multicard SIM", null)
-                return
-            }
+            SmsManager.getSmsManagerForSubscriptionId(subId)
         }
         sms.sendTextMessage(address, null, body, sentPendingIntent, deliveredPendingIntent)
         result.success(null)
