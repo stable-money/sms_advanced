@@ -28,7 +28,7 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
   private lateinit var queryContactPhotoChannel : MethodChannel
   private lateinit var userProfileChannel : MethodChannel
   private lateinit var simCardChannel : MethodChannel
-  private lateinit var simChangeChannel : MethodChannel
+  private lateinit var simChangeChannel : EventChannel
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 
@@ -52,7 +52,7 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
 
     this.simCardChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "plugins.elyudde.com/simCards", JSONMethodCodec.INSTANCE)
 
-    this.simChangeChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "plugins.elyudde.com/simChange", JSONMethodCodec.INSTANCE)
+    this.simChangeChannel = EventChannel(flutterPluginBinding.binaryMessenger, "plugins.elyudde.com/simChange", JSONMethodCodec.INSTANCE)
 
   }
 
@@ -60,6 +60,7 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     receiveSmsChannel.setStreamHandler(null)
     smsStatusChannel.setStreamHandler(null)
+    simChangeChannel.setStreamHandler(null)
     sendSmsChannel.setMethodCallHandler(null)
     removeSmsChannel.setMethodCallHandler(null)
     querySmsChannel.setMethodCallHandler(null)
@@ -68,7 +69,6 @@ class SmsAdvancedPlugin() : FlutterPlugin, ActivityAware {
     userProfileChannel.setMethodCallHandler(null)
     simCardChannel.setMethodCallHandler(null)
     simCardChannel.setMethodCallHandler(null)
-    simChangeChannel.setMethodCallHandler(null)
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {

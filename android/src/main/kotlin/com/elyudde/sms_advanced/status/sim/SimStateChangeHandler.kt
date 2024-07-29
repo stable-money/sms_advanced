@@ -37,8 +37,4 @@ class SimStateChangeHandler(val context: Context, private val binding: ActivityP
         context.unregisterReceiver(simChangeListener)
         simChangeListener = null
     }
-
-    init {
-        binding.addRequestPermissionsResultListener(this)
-    }
 }
