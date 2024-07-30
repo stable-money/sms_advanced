@@ -552,6 +552,16 @@ class SimCard {
       number = map['number'];
     }
   }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = <String, dynamic>{};
+    data['slot'] = slot;
+    data['display_name'] = displayName;
+    data['carrier_name'] = carrierName;
+    data['sub_id'] = subscriptionId;
+    data['number'] = number;
+    return data;
+  }
 }
 
 class SmsRemover {
