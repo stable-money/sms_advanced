@@ -13,6 +13,11 @@ enum SmsMessageState {
   Delivered,
   Fail,
   None,
+  RESULT_ERROR_GENERIC_FAILURE,
+  RESULT_ERROR_NO_SERVICE,
+  RESULT_ERROR_NULL_PDU,
+  RESULT_ERROR_RADIO_OFF,
+  DELIVERY_CANCELLED,
 }
 
 enum SmsMessageKind {
@@ -337,7 +342,7 @@ class SmsSender {
     if (simCard != null) {
       map['subId'] = simCard.subscriptionId;
     }
-    _sentId += 1;
+    // _sentId += 1;
 
     if (!kIsWeb && Platform.isIOS) {
       final mapData = <dynamic, dynamic>{
@@ -365,9 +370,45 @@ class SmsSender {
             _sentMessages[id!]!.state = SmsMessageState.Sent;
             break;
           }
-        case 'delivered':
+        case 'DELIVERED':
           {
             _sentMessages[id!]!.state = SmsMessageState.Delivered;
+            _deliveredStreamController.add(_sentMessages[id]);
+            _sentMessages.remove(id);
+            break;
+          }
+        case 'RESULT_ERROR_GENERIC_FAILURE':
+          {
+            _sentMessages[id!]!.state =
+                SmsMessageState.RESULT_ERROR_GENERIC_FAILURE;
+            _deliveredStreamController.add(_sentMessages[id]);
+            _sentMessages.remove(id);
+            break;
+          }
+        case 'RESULT_ERROR_NO_SERVICE':
+          {
+            _sentMessages[id!]!.state = SmsMessageState.RESULT_ERROR_NO_SERVICE;
+            _deliveredStreamController.add(_sentMessages[id]);
+            _sentMessages.remove(id);
+            break;
+          }
+        case 'RESULT_ERROR_NULL_PDU':
+          {
+            _sentMessages[id!]!.state = SmsMessageState.RESULT_ERROR_NULL_PDU;
+            _deliveredStreamController.add(_sentMessages[id]);
+            _sentMessages.remove(id);
+            break;
+          }
+        case 'RESULT_ERROR_RADIO_OFF':
+          {
+            _sentMessages[id!]!.state = SmsMessageState.RESULT_ERROR_RADIO_OFF;
+            _deliveredStreamController.add(_sentMessages[id]);
+            _sentMessages.remove(id);
+            break;
+          }
+        case 'DELIVERY_CANCELLED':
+          {
+            _sentMessages[id!]!.state = SmsMessageState.DELIVERY_CANCELLED;
             _deliveredStreamController.add(_sentMessages[id]);
             _sentMessages.remove(id);
             break;
