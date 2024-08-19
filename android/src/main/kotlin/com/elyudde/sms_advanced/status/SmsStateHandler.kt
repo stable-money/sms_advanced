@@ -35,43 +35,43 @@ class SmsStateHandler(val context: Context, private val binding: ActivityPluginB
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     stateChange.put("state", "sent")
-                    Toast.makeText(context, "SMS Sent", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "SMS Sent", Toast.LENGTH_SHORT).show()
                 }
 
                 SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
                     stateChange.put("state", "RESULT_ERROR_GENERIC_FAILURE")
-                    Toast.makeText(
-                        context,
-                        "Generic failure",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "Generic failure",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
 
                 SmsManager.RESULT_ERROR_NO_SERVICE -> {
                     stateChange.put("state", "RESULT_ERROR_NO_SERVICE")
-                    Toast.makeText(
-                        context,
-                        "No service",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "No service",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
 
                 SmsManager.RESULT_ERROR_NULL_PDU -> {
                     stateChange.put("state", "RESULT_ERROR_NULL_PDU")
-                    Toast.makeText(
-                        context,
-                        "Null PDU",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "Null PDU",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
 
                 SmsManager.RESULT_ERROR_RADIO_OFF -> {
                     stateChange.put("state", "RESULT_ERROR_RADIO_OFF")
-                    Toast.makeText(
-                        context,
-                        "Radio off",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "Radio off",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
 
                 else -> {
@@ -89,16 +89,16 @@ class SmsStateHandler(val context: Context, private val binding: ActivityPluginB
             when (resultCode) {
                 Activity.RESULT_OK -> {
                     stateChange.put("state", "DELIVERED")
-                    Toast.makeText(context, "SMS Delivered", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast.makeText(context, "SMS Delivered", Toast.LENGTH_SHORT)
+//                        .show()
                 }
                 Activity.RESULT_CANCELED -> {
                     stateChange.put("state", "DELIVERY_CANCELLED")
-                    Toast.makeText(
-                        context,
-                        "SMS not delivered",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context,
+//                        "SMS not delivered",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
                 else -> {
                     stateChange.put("state", "UNKNOWN")
