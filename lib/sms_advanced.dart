@@ -339,7 +339,7 @@ class SmsSender {
     Map map = msg.toMap;
     _sentMessages.putIfAbsent(_sentId, () => msg);
     map['sentId'] = _sentId;
-    if (simCard != null) {
+    if (simCard != null && simCard.subscriptionId != null) {
       map['subId'] = simCard.subscriptionId;
     }
     // _sentId += 1;
@@ -566,8 +566,8 @@ class SimCard {
   String? number;
 
   SimCard({
-    required int this.slot,
-    required int this.subscriptionId,
+    required int? this.slot,
+    required int? this.subscriptionId,
     required String this.carrierName,
     required String this.number,
     required String this.displayName,

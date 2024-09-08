@@ -49,7 +49,6 @@ internal class SmsSenderMethodHandler(
     }
 
 
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -74,7 +73,6 @@ internal class SmsSenderMethodHandler(
     }
 
 
-
     private fun sendSmsMessage() {
         val sms: SmsManager = if (subId == null) {
             SmsManager.getDefault()
@@ -84,13 +82,17 @@ internal class SmsSenderMethodHandler(
 
         val sentIntent = Intent("SMS_SENT")
         sentIntent.putExtra("sentId", sentId)
-        val sentPI = PendingIntent.getBroadcast(context, 199, sentIntent,
-            PendingIntent.FLAG_IMMUTABLE)
+        val sentPI = PendingIntent.getBroadcast(
+            context, 199, sentIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val deliveredIntent = Intent("SMS_DELIVERED")
         deliveredIntent.putExtra("sentId", sentId)
-        val deliveredPI = PendingIntent.getBroadcast(context, 199, deliveredIntent,
-            PendingIntent.FLAG_IMMUTABLE)
+        val deliveredPI = PendingIntent.getBroadcast(
+            context, 199, deliveredIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         sms.sendTextMessage(address, null, body, sentPI, deliveredPI)
         result.success(null)
@@ -101,14 +103,17 @@ internal class SmsSenderMethodHandler(
     }
 }
 
-internal class SmsSender(val context: Context, private val binding: ActivityPluginBinding) : MethodCallHandler {
-    private val permissions: Permissions = Permissions(context, binding.activity as FlutterFragmentActivity)
+internal class SmsSender(val context: Context, private val binding: ActivityPluginBinding) :
+    MethodCallHandler {
+    private val permissions: Permissions =
+        Permissions(context, binding.activity as FlutterFragmentActivity)
+
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         if (call.method == "sendSMS") {
             val address = call.argument<Any>("address").toString()
             val body = call.argument<Any>("body").toString()
             val sentId = call.argument<Int>("sentId")!!
-            val subId = call.argument<Int>("subId")
+            val subId = call.argument<Int?>("subId")
             if (address == null) {
                 result.error("#02", "missing argument 'address'", null)
             } else if (body == null) {
