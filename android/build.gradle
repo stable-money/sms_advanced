@@ -26,6 +26,8 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 34
+    
+    namespace 'com.elyudde.sms_advanced'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
