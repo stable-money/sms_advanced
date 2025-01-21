@@ -31,5 +31,5 @@ class TelephonyManager(private val context: Context) {
 
     val activeSubscriptionInfoList: List<SubscriptionInfo>
         @SuppressLint("MissingPermission")
-        get() = subScriptionManager!!.activeSubscriptionInfoList
+        get() = subScriptionManager?.activeSubscriptionInfoList ?: listOf()
 }
