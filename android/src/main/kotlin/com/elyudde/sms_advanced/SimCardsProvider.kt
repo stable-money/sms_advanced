@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.elyudde.sms_advanced.permisions.Permissions
 import com.elyudde.sms_advanced.telephony.TelephonyManager
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -84,7 +83,7 @@ internal class SimCardsHandler(
 }
 
 internal class SimCardsProvider(val context: Context, private val binding: ActivityPluginBinding) : MethodCallHandler {
-    private val permissions: Permissions = Permissions(context, binding.activity as FlutterFragmentActivity)
+    private val permissions: Permissions = Permissions(context, binding.activity)
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         if (call.method != "getSimCards") {
             result.notImplemented()

@@ -2,13 +2,13 @@ package com.elyudde.sms_advanced
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
 import com.elyudde.sms_advanced.permisions.Permissions
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -127,7 +127,7 @@ internal class ContactPhotoQueryHandler(
 }
 
 internal class ContactPhotoQuery(val context: Context, private val binding: ActivityPluginBinding) : MethodCallHandler {
-    private val permissions: Permissions = Permissions(context, binding.activity as FlutterFragmentActivity)
+    private val permissions: Permissions = Permissions(context, binding.activity as Activity)
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         if (call.method != "getContactPhoto") {
             result.notImplemented()

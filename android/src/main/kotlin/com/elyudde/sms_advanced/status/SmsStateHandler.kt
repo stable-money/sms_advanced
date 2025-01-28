@@ -13,7 +13,6 @@ import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.elyudde.sms_advanced.permisions.Permissions
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
